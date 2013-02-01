@@ -8,6 +8,8 @@
 	"keep_focus":	true,
 	// Sync PDF to current editor position after building (true) or not 
 	"forward_sync":	true,
+	// Should OS X platforms use Skim? Set to False, package uses Preview.app.
+	"use_skim": false,
 
 	// Settings that are specific to Linux platforms
 	"linux": {
