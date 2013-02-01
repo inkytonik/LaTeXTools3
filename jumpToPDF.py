@@ -1,6 +1,7 @@
 import sublime, sublime_plugin, os.path, subprocess, time
 from . import getTeXRoot
 import os
+import shutil
 
 # Jump to current line in PDF file
 # NOTE: must be called with {"from_keybinding": <boolean>} as arg
