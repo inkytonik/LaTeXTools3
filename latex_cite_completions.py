@@ -1,7 +1,7 @@
 import sublime, sublime_plugin
 import os, os.path
 import re
-import getTeXRoot
+from . import getTeXRoot
 
 def match(rex, str):
     m = rex.match(str)
