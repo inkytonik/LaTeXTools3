@@ -190,14 +190,14 @@ class MakePdfCommand(sublime_plugin.WindowCommand):
 		tex_dir = os.path.dirname(self.file_name)
 
 
-		tex_dir += '/.latex-tmp/'
+		tex_dir = os.path.join(tex_dir, ".latex-tmp")
 
 		if not os.path.exists(tex_dir):
 			os.makedirs(tex_dir)
 
 		theHead, theTail = os.path.split(self.tex_base)
-		theHead += '/.latex-tmp/'
-		self.tex_base = theHead + theTail
+		theHead = os.path.join(theHead, ".latex-tmp")
+		self.tex_base = os.path.join(theHead, theTail)
 
 		
 		# Extra paths

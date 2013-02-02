@@ -43,13 +43,13 @@ class JumpToPdfCommand(sublime_plugin.TextCommand):
 		pdfHead, pdfTail = os.path.split(rootName)
 		pdfHead += '/.latex-tmp/'
 		generatedPDF = pdfHead + pdfTail + '.pdf'
-
-		generatedSyncTeX = pdfHead + pdfTail + u'.synctex.gz'
-
 		shutil.copy(generatedPDF, '../')
 		os.remove(generatedPDF)
-		shutil.copy(generatedSyncTeX, '../')
-		os.remove(generatedSyncTeX)
+		
+		if prefs_skim:
+			generatedSyncTeX = pdfHead + pdfTail + u'.synctex.gz'
+			shutil.copy(generatedSyncTeX, '../')
+			os.remove(generatedSyncTeX)
 
 
 		(line, col) = self.view.rowcol(self.view.sel()[0].end())
