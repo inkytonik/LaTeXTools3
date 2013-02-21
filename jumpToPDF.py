@@ -114,7 +114,7 @@ class JumpToPdfCommand(sublime_plugin.TextCommand):
 			print("Linux!")
 			
 			# the required scripts are in the 'evince' subdir
-			ev_path = os.path.join(sublime.packages_path(), 'LaTeXTools', 'evince')
+			ev_path = os.path.join(sublime.packages_path(), 'LaTeXTools3', 'evince')
 			ev_fwd_exec = os.path.join(ev_path, 'evince_forward_search')
 			ev_sync_exec = os.path.join(ev_path, 'evince_sync') # for inverse search!
 			#print ev_fwd_exec, ev_sync_exec
