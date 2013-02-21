@@ -11,6 +11,11 @@
 	// Should OS X platforms use Skim? Set to False, package uses Preview.app.
 	"use_skim": false,
 
+	// If set to true, all intermediary LaTeX files will be created in {build-dir}/.latex-tmp
+	// This keeps a neater directory, but requires all paths to included files to be specified
+	// absolutely (i.e., from /).
+	"use_temporary_dir": false,
+
 	// Settings that are specific to Linux platforms
 	"linux": {
 		// Command to invoke Python 2. Useful if you have both Python 2 and Python 3 on your system,

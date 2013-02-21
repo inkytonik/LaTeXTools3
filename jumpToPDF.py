@@ -15,6 +15,7 @@ class JumpToPdfCommand(sublime_plugin.TextCommand):
 		prefs_forward_sync = s.get("forward_sync", True)
 		forward_sync = self.view.settings().get("forward_sync",prefs_forward_sync)
 		prefs_skim = s.get("use_skim", False)
+		prefs_acro = s.get("use_acrobat", False)
 
 		prefs_lin = s.get("linux")
 
@@ -40,13 +41,14 @@ class JumpToPdfCommand(sublime_plugin.TextCommand):
 		rootName, rootExt = os.path.splitext(root)
 		pdffile = rootName + '.pdf'
 
-		pdfHead, pdfTail = os.path.split(rootName)
-		pdfHead += '/.latex-tmp/'
-		generatedPDF = pdfHead + pdfTail + '.pdf'
-		shutil.copy(generatedPDF, '../')
-		os.remove(generatedPDF)
+		if s.get("use_temporary_dir", False):
+			pdfHead, pdfTail = os.path.split(rootName)
+			pdfHead += '/.latex-tmp/'
+			generatedPDF = pdfHead + pdfTail + '.pdf'
+			shutil.copy(generatedPDF, '../')
+			os.remove(generatedPDF)
 		
-		if prefs_skim:
+		if prefs_skim and s.get("use_temporary_dir", False):
 			generatedSyncTeX = pdfHead + pdfTail + u'.synctex.gz'
 			shutil.copy(generatedSyncTeX, '../')
 			os.remove(generatedSyncTeX)
@@ -73,7 +75,10 @@ class JumpToPdfCommand(sublime_plugin.TextCommand):
 				skim = os.path.join(sublime.packages_path(),
 								'LaTeXTools', 'skim', 'displayfile')
 				subprocess.Popen(['sh', skim] + options + [pdffile])
-		elif plat == 'darwin' and not prefs_skim:
+		elif plat == 'darwin' and prefs_acro:
+			options = ["-g", "-a", "Adobe Acrobat Pro"] if keep_focus else ["-a", "Adobe Acrobat Pro"]
+			subprocess.Popen(["open"] + options + [pdffile])
+		elif plat == 'darwin':
 			options = ["-g", "-a", "Preview"] if keep_focus else ["-a", "Preview"]
 			subprocess.Popen(["open"] + options + [pdffile])
 		elif plat == 'win32':
@@ -85,7 +90,7 @@ class JumpToPdfCommand(sublime_plugin.TextCommand):
 			tasks = subprocess.Popen(["tasklist"], stdout=subprocess.PIPE,
 					startupinfo=startupinfo).communicate()[0]
 			# Popen returns a byte stream, i.e. a single line. So test simply:
-			if "SumatraPDF.exe" not in tasks:
+			if "SumatraPDF.exe" not in str(tasks, encoding='utf8' ):
 				print("Sumatra not running, launch it")
 				self.view.window().run_command("view_pdf")
 				time.sleep(0.5) # wait 1/2 seconds so Sumatra comes up
