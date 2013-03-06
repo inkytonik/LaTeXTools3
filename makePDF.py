@@ -281,8 +281,7 @@ class MakePdfCommand(sublime_plugin.WindowCommand):
 		    and self.output_view.sel()[0]
 		        == sublime.Region(self.output_view.size()))
 		self.output_view.set_read_only(False)
-		edit = self.output_view.begin_edit(self.output_view.id(), "do_output_edit", {"data": myStr, "selection_was_at_end": selection_was_at_end})
-		self.output_view.end_edit(edit)
+		self.output_view.run_command("do_output_edit", {"data": myStr, "selection_was_at_end": selection_was_at_end})
 		self.output_view.set_read_only(True)
 
 	# Also from exec.py
@@ -293,8 +292,7 @@ class MakePdfCommand(sublime_plugin.WindowCommand):
 		sublime.set_timeout(functools.partial(self.do_finish, can_switch_to_pdf), 0)
 
 	def do_finish(self, can_switch_to_pdf):
-		edit = self.output_view.begin_edit(self.output_view.id(), "do_finish_edit")
-		self.output_view.end_edit(edit)
+		self.output_view.run_command("do_finish_edit")
 		if can_switch_to_pdf:
 			self.window.active_view().run_command("jump_to_pdf", {"from_keybinding": False})
 
