@@ -300,7 +300,7 @@ class DoOutputEditCommand(sublime_plugin.TextCommand):
 	def run(self, edit, data, selection_was_at_end):
 		self.view.insert(edit, self.view.size(), data)
 		if selection_was_at_end:
-		    theView.show(theView.size())
+		    self.view.show(self.view.size())
 
 class DoFinishEditCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
